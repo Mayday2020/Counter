@@ -4,3 +4,19 @@
     padding: 15px;
     width: 450px;
 }
+.main {
+    width: 1024px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.miniContainer {
+    border: 1px solid #61dafb;
+    margin: 10px auto;
+    padding: 15px;
+}
+.flexRowContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

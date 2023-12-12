@@ -1,4 +1,5 @@
 import React from 'react'
+import s from './Button.module.css'
 
 type ButtonPropsType = {
     name: string
@@ -7,7 +8,7 @@ type ButtonPropsType = {
 
 const Button = (props: ButtonPropsType) => {
     return (
-        <div>
+        <div className={s.buttonContainer}>
             <button onClick={props.callBack}>{props.name}</button>
         </div>
     )

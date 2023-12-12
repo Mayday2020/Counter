@@ -1,14 +1,16 @@
 import React from 'react'
 import s from './container.module.css'
-import Button from "../button/Button";
+import SettingsComponent from "../settingsComponent/SettingsComponent";
+import UIComponent from "../UIComponent";
 
 const ContainerComponent = () => {
+
     return (
-        <div className={s.container}>
-            <div>
-                <Button name={'Set'} callBack={() => {}}/>
-            </div>
+        <div className={s.main}>
+            <SettingsComponent />
+            <UIComponent />
         </div>
+
     )
 }
 export default ContainerComponent
