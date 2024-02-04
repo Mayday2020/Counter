@@ -1,0 +1,15 @@
+.window {
+    display: flex;
+    background-color: #515151;
+    border-radius: 10px;
+    max-width: 300px;
+    padding: 5px 10px;
+}
+.message {
+    text-align: left;
+    line-height: 1.2;
+}
+p span {
+    color: #7777fd;
+    font-weight: 500;
+}
