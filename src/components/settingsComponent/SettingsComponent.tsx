@@ -6,32 +6,35 @@ import {ModeType} from "../container/ContainerComponent";
 type SettingsComponentPropsType = {
     minValue: number
     maxValue: number
-    setMinValue: (value: number)=> void
-    setMaxValue: (value: number)=> void
-    setCount: (value: number)=> void
-    changeSettingsMode: (value: ModeType)=> void
+    setMinValue: (value: number) => void
+    setMaxValue: (value: number) => void
+    setCount: (value: number) => void
+    setSettingsMode: (value: ModeType) => void
     settingsMode: ModeType
 }
 
 const SettingsComponent = (props: SettingsComponentPropsType) => {
     let [maxV, setMaxV] = useState(props.maxValue)
     let [minV, setMinV] = useState(props.minValue)
-
     const onChangeMaxV = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeSettingsMode('settings')
-        const value = +e.target.value
-        setMaxV(value)
+        setMaxV(+e.target.value)
     }
     const onChangeMinV = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeSettingsMode('settings')
-        const value = +e.target.value
-        setMinV(value)
+        setMinV(+e.target.value)
     }
     const setValues = () => {
         props.setMaxValue(maxV)
         props.setMinValue(minV)
         props.setCount(minV)
-        props.changeSettingsMode('correct')
+        props.setSettingsMode('start')
+    }
+
+    if (minV === props.minValue && maxV === props.maxValue) {
+        props.setSettingsMode('start')
+    } else if (minV < 0 || minV >= maxV) {
+        props.setSettingsMode('incorrect')
+    } else {
+        props.setSettingsMode('settings')
     }
 
     return (
@@ -41,9 +44,10 @@ const SettingsComponent = (props: SettingsComponentPropsType) => {
                     <div>max value:</div>
                     <div>
                         <input
-                            className={maxV < minV || maxV < 0 ? s.incorrectValue : s.correctValue}
+                            className={props.settingsMode === 'incorrect' ? s.incorrectValue : s.correctValue}
                             placeholder={'maxV'}
                             value={maxV}
+                            type={'number'}
                             onChange={(e) => onChangeMaxV(e)}
                         />
                     </div>
@@ -52,16 +56,19 @@ const SettingsComponent = (props: SettingsComponentPropsType) => {
                     <div>start value:</div>
                     <div>
                         <input
-                            className={ props.settingsMode === 'incorrect' ? s.incorrectValue : s.correctValue}
+                            className={props.settingsMode === 'incorrect' ? s.incorrectValue : s.correctValue}
                             placeholder={'minV'}
                             value={minV}
+                            type={'number'}
                             onChange={(e) => onChangeMinV(e)}
                         />
                     </div>
                 </div>
             </div>
             <div className={s.miniContainer}>
-                <Button name={'Set'} callBack={setValues} disabled={maxV < minV}/>
+                <Button name={'Set'}
+                        callBack={setValues}
+                        disabled={props.settingsMode !== 'settings'}/>
             </div>
         </div>
     )

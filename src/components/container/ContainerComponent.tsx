@@ -3,45 +3,34 @@ import s from './container.module.css'
 import SettingsComponent from "../settingsComponent/SettingsComponent";
 import UIComponent from "../UIComponent";
 
-export type ModeType = 'correct' | 'incorrect' | 'settings'
+export type ModeType = 'incorrect' | 'settings' | 'start'
 
 const ContainerComponent = () => {
 
-    let [maxValue, setMaxValue] = useState(5)
+    let [maxValue, setMaxValue] = useState(3)
     let [minValue, setMinValue] = useState(1)
     let [count, setCount] = useState(minValue)
-    let [settingsMode, setSettingsMode] = useState<ModeType>('correct')
+    let [settingsMode, setSettingsMode] = useState<ModeType>('start')
 
-    const counting = (num: number) => {
-        setCount(num)
-    }
-    const changeMinV = (num: number) => {
-        setMinValue(num)
-    }
-    const changeMaxV = (num: number) => {
-        setMaxValue(num)
-    }
-    const changeSettingsMode = (value: ModeType) => {
-        setSettingsMode(value)
-    }
 
+    console.log(maxValue, minValue, settingsMode)
     return (
         <div className={s.main}>
             <SettingsComponent
                 minValue={minValue}
                 maxValue={maxValue}
-                setMinValue={changeMinV}
-                setMaxValue={changeMaxV}
-                setCount={counting}
-                changeSettingsMode={changeSettingsMode}
+                setMinValue={setMinValue}
+                setMaxValue={setMaxValue}
+                setCount={setCount}
+                setSettingsMode={setSettingsMode}
                 settingsMode={settingsMode}
             />
             <UIComponent
                 count={count}
-                changeCount={counting}
+                setCount={setCount}
                 maxValue={maxValue}
                 minValue={minValue}
-                settings={settingsMode}
+                settingsMode={settingsMode}
             />
         </div>
 

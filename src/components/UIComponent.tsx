@@ -5,33 +5,35 @@ import {ModeType} from "./container/ContainerComponent";
 
 type UIComponentPropsType = {
     count: number
-    changeCount: (num: number) => void
+    setCount: (num: number) => void
     maxValue: number
     minValue: number
-    settings: ModeType
+    settingsMode: ModeType
 }
 
 const UIComponent = (props: UIComponentPropsType) => {
     const countInc = () => {
         if (props.count < props.maxValue) {
-            props.changeCount(props.count + 1)
+            props.setCount(props.count + 1)
         }
     }
     const countReset = () => {
-        props.changeCount(props.minValue)
+        props.setCount(props.minValue)
     }
     let content: number | string = props.count
-    if (props.settings === 'incorrect'){
+    if (props.settingsMode === 'incorrect') {
         content = 'Incorrect values'
-    } else if (props.settings === 'correct') {
+    } else if (props.settingsMode === 'start') {
         content = props.count
-    } else if (props.settings === 'settings') {
+    } else if (props.settingsMode === 'settings') {
         content = 'Press SET to continue'
     }
     return (
         <div className={s.container}>
             <div className={s.miniContainer}>
-                <h1 className={props.count === props.maxValue || props.settings === 'incorrect' ? s.maxValue : s.value}>
+                <h1 className={props.count === props.maxValue && props.settingsMode === 'start'
+                || props.settingsMode === 'incorrect'
+                    ? s.maxValue : s.value}>
                     {
                         content
                     }
@@ -42,11 +44,15 @@ const UIComponent = (props: UIComponentPropsType) => {
                     <Button
                         name={'Inc'}
                         callBack={countInc}
-                        disabled={props.count === props.maxValue || props.settings !== 'correct'}/>
+                        disabled={props.count === props.maxValue ||
+                        props.settingsMode === 'incorrect' ||
+                        props.settingsMode === 'settings'}/>
                     <Button
                         name={'Reset'}
                         callBack={countReset}
-                        disabled={props.count === props.minValue || props.settings !== 'correct'}/>
+                        disabled={props.count === props.minValue ||
+                        props.settingsMode === 'incorrect' ||
+                        props.settingsMode === 'settings'}/>
                 </div>
             </div>
         </div>
