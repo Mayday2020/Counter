@@ -1,14 +1,13 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import s from "../container/container.module.css";
 import Button from "../button/Button";
 import {ModeType} from "../container/ContainerComponent";
 
 type SettingsComponentPropsType = {
-    minValue: number
     maxValue: number
+    minValue: number
     setMinValue: (value: number) => void
     setMaxValue: (value: number) => void
-    setCount: (value: number) => void
     setSettingsMode: (value: ModeType) => void
     settingsMode: ModeType
 }
@@ -16,6 +15,17 @@ type SettingsComponentPropsType = {
 const SettingsComponent = (props: SettingsComponentPropsType) => {
     let [maxV, setMaxV] = useState(props.maxValue)
     let [minV, setMinV] = useState(props.minValue)
+    useEffect( () => {
+        let maxV = localStorage.getItem('maxV')
+        if (maxV) {
+            setMaxV(JSON.parse(maxV))
+        }
+        let minV = localStorage.getItem('minV')
+        if (minV) {
+            setMinV(JSON.parse(minV))
+        }
+    }, [])
+
     const onChangeMaxV = (e: ChangeEvent<HTMLInputElement>) => {
         setMaxV(+e.target.value)
     }
@@ -25,8 +35,9 @@ const SettingsComponent = (props: SettingsComponentPropsType) => {
     const setValues = () => {
         props.setMaxValue(maxV)
         props.setMinValue(minV)
-        props.setCount(minV)
         props.setSettingsMode('start')
+        localStorage.setItem('maxV', JSON.stringify(maxV))
+        localStorage.setItem('minV', JSON.stringify(minV))
     }
 
     if (minV === props.minValue && maxV === props.maxValue) {
@@ -41,7 +52,7 @@ const SettingsComponent = (props: SettingsComponentPropsType) => {
         <div className={s.container}>
             <div className={s.miniContainer}>
                 <div className={s.value}>
-                    <div>max value:</div>
+                    <div>max value: <span className={s.settingsValue}>{props.maxValue}</span></div>
                     <div>
                         <input
                             className={props.settingsMode === 'incorrect' ? s.incorrectValue : s.correctValue}
@@ -53,7 +64,7 @@ const SettingsComponent = (props: SettingsComponentPropsType) => {
                     </div>
                 </div>
                 <div className={s.value}>
-                    <div>start value:</div>
+                    <div>start value: <span className={s.settingsValue}>{props.minValue}</span></div>
                     <div>
                         <input
                             className={props.settingsMode === 'incorrect' ? s.incorrectValue : s.correctValue}

@@ -23,6 +23,9 @@
 .value {
     color: #FFFFFF;
 }
+.settingsValue {
+    color: #61dafb;
+}
 .maxValue {
     color: red;
 }
